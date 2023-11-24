@@ -1,9 +1,24 @@
+---
 - name: Ec2 playbook
   hosts: ec2virtualmachines
+  vars_prompt:
+    - name: username
+      private: false
+      prompt: What is your name ?
   tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
+    - name: Ping my hosts
+      ansible.builtin.ping:
 
-   - name: Print message
-     ansible.builtin.debug:
-       msg: Hello world
+    - name: Print message
+      ansible.builtin.debug:
+        msg: Hello world
+
+    - name: write hostname using jinja2
+      ansible.builtin.template:
+        src: templates/test.j2
+        dest: /tmp/hostname
+
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: 'Logging in as {{ username }}'
+      when: username | int
