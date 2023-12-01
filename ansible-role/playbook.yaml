@@ -1,0 +1,12 @@
+---
+- name: Ec2 playbook
+  hosts: ec2virtualmachines
+  vars_prompt:
+    - name: username
+      private: false
+      prompt: What is your name ?
+  module_defaults:
+    ansible.builtin.debug:
+      msg: Hello {{ username }}
+  roles:
+    - test

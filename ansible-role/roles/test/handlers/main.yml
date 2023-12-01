@@ -1,0 +1,4 @@
+---
+- name: handlers notify
+  ansible.builtin.debug:
+    msg: Handler is triggered

@@ -1,0 +1,2 @@
+My name is {{ ansible_facts['hostname'] | default("hostname.default") }}
+Test varible {{ test | mandatory }}

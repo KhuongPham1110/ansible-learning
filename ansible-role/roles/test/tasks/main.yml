@@ -1,0 +1,27 @@
+---
+- name: Ping my hosts
+  ansible.builtin.ping:
+
+- name: Print message
+  ansible.builtin.debug:
+    msg: Hello world
+
+- name: write hostname using jinja2
+  ansible.builtin.template:
+    src: templates/test.j2
+    dest: /tmp/hostname
+  notify:
+    - handlers notify
+
+- name: Print username message
+  ansible.builtin.debug:
+    msg: 'Logging in as {{ username }}'
+  when: username == "khuong"
+
+- name: Run the command if "epic" or "monumental" is true
+  ansible.builtin.shell: echo "This certainly is epic!"
+  when: epic or monumental | bool
+
+- name: Run the command if "epic" is false
+  ansible.builtin.shell: echo "This certainly isn't epic!"
+  when: not epic

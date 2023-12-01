@@ -5,6 +5,11 @@
     - name: username
       private: false
       prompt: What is your name ?
+
+  vars:
+    epic: true
+    monumental: "yes"
+
   tasks:
     - name: Ping my hosts
       ansible.builtin.ping:
@@ -17,8 +22,23 @@
       ansible.builtin.template:
         src: templates/test.j2
         dest: /tmp/hostname
+      notify:
+        - handlers notify
 
-    - name: Print a message
+    - name: Print username message
       ansible.builtin.debug:
         msg: 'Logging in as {{ username }}'
-      when: username | int
+      when: username == "khuong"
+
+    - name: Run the command if "epic" or "monumental" is true
+      ansible.builtin.shell: echo "This certainly is epic!"
+      when: epic or monumental | bool
+
+    - name: Run the command if "epic" is false
+      ansible.builtin.shell: echo "This certainly isn't epic!"
+      when: not epic
+
+  handlers:
+    - name: handlers notify
+      ansible.builtin.debug:
+        msg: Handler is triggered
